@@ -8,6 +8,7 @@ const App = () => {
   const [appState, setAppState] = useState({
     form: null
   });
+  const [hasLoaded, setHasLoaded] = useState(false);
 
   useEffect(() => {
     const apiUrl = "https://dev-mkgfdev.pantheonsite.io/wp-json/gf/v2/forms/4";
@@ -20,12 +21,17 @@ const App = () => {
       .then((response) => response.json())
       .then((form) => {
         setAppState({ form: form });
+        setHasLoaded(true);
       });
   }, [setAppState]);
 
+  if (!hasLoaded) {
+    return <p>loading...</p>;
+  }
+
   return (
     <div className="App">
-      <h1>Fuck Around Find Out About {appState.form?.title}</h1>
+      <h1>Fuck Around Find Out About {appState.form.title}</h1>
       <TextField />
     </div>
   );
